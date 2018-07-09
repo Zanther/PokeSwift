@@ -32,7 +32,6 @@ class PokeDetailVC: UIViewController {
         
         pokeNameLbl.text = pokemon.name.capitalized
         pokedexNumberLbl.text = String(format: "%03d", pokemon.pokedexId)
-
         
         pokeImageView.image = UIImage(named: "\(pokemon.pokedexId)")
         pokeImageViewBG.image = UIImage(named: "\(pokemon.pokedexId)")
@@ -41,11 +40,27 @@ class PokeDetailVC: UIViewController {
         evolutionImageLeft.image = UIImage(named: "\(pokemon.pokedexId)")
         evolutionImageRight.image = UIImage(named: "\(pokemon.pokedexId+1)")
 
-
-        
+        self.updateUI()
+//        pokemon.downloadPokemonDetail {
+//
+//            print("Start Download Pokemon Information")
+//            // This will only be called after the network call is complete
+//
+//            self.updateUI()
+//        }
 
     }
 
+    func updateUI() {
+        
+        pokeTypeLbl.text = pokemon.type
+        pokeHeightLbl.text = pokemon.height
+        pokeWeightLbl.text = pokemon.weight
+        pokeBaseAtkLbl.text = pokemon.baseAttack
+        pokeBaseDefLbl.text = pokemon.baseDefense
+        pokedexEntryLbl.text = pokemon.pokedexEntry
+        
+    }
     
     @IBAction func backBtnPressed(_ sender: Any) {
         dismiss(animated: true, completion: nil)

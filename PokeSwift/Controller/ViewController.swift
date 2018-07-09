@@ -18,6 +18,8 @@ class ViewController: UIViewController, UICollectionViewDelegate, UICollectionVi
     var filteredPokemon = [Pokemon]()
     var musicPlayer: AVAudioPlayer!
     var searching = false
+    var actInd: UIActivityIndicatorView!
+    var i = Int()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -29,6 +31,8 @@ class ViewController: UIViewController, UICollectionViewDelegate, UICollectionVi
         
         searchBar.returnKeyType = UIReturnKeyType.done
    
+        i = 0
+        
         parsePokemonCSV()
         
         initAudio()
@@ -132,6 +136,9 @@ class ViewController: UIViewController, UICollectionViewDelegate, UICollectionVi
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         
+        showActivityIndicatory(uiView: self.view)
+        collectionView.isUserInteractionEnabled = false
+        
         let pocketMonster: Pokemon!
         
         if searching {
@@ -142,10 +149,28 @@ class ViewController: UIViewController, UICollectionViewDelegate, UICollectionVi
             pocketMonster = self.pokemon[indexPath.row]
         }
         
-        performSegue(withIdentifier: "pokeSegue", sender: pocketMonster)
+        print("Start Download Pokemon Information for", pocketMonster.name.capitalized)
         
-        print(pocketMonster.name)
-        
+        pocketMonster.downloadPokemonDetail {
+//            self.self.i = self.i + 1
+            self.i = self.i + 1
+            print(self.i)
+            if self.i >= 2 {
+                
+                print("Downloaded Complete, Showing Pokedex Data")
+                // This will only be called after the network call is complete
+                
+                self.performSegue(withIdentifier: "pokeSegue", sender: pocketMonster)
+                
+                self.actInd.stopAnimating()
+                self.actInd.removeFromSuperview()
+                collectionView.isUserInteractionEnabled = true
+                
+                self.i = 0
+            }
+            
+
+        }
     }
     
     func numberOfSections(in collectionView: UICollectionView) -> Int {
@@ -177,6 +202,17 @@ class ViewController: UIViewController, UICollectionViewDelegate, UICollectionVi
         musicPlayer.play()
             sender.alpha = 0.9
         }
+    }
+    
+    func showActivityIndicatory(uiView: UIView) {
+        actInd = UIActivityIndicatorView()
+        actInd.frame = CGRect(x: 0, y: 40, width: 70, height: 70)
+//        actInd.center = uiView.center
+        actInd.hidesWhenStopped = true
+        actInd.activityIndicatorViewStyle =
+            UIActivityIndicatorViewStyle.whiteLarge
+        uiView.addSubview(actInd)
+        actInd.startAnimating()
     }
     
 }
