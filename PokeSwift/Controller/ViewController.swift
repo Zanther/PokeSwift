@@ -151,17 +151,32 @@ class ViewController: UIViewController, UICollectionViewDelegate, UICollectionVi
         
         print("Start Download Pokemon Information for", pocketMonster.name.capitalized)
         
+        
         pocketMonster.downloadPokemonDetail {
-//            self.self.i = self.i + 1
             self.i = self.i + 1
-            print(self.i)
+            print("Download Count", self.i)
             if self.i >= 2 {
                 
-                print("Downloaded Complete, Showing Pokedex Data")
-                // This will only be called after the network call is complete
-                
-                self.performSegue(withIdentifier: "pokeSegue", sender: pocketMonster)
-                
+                if pocketMonster.evolutionURL != "" {
+                    
+                    print("Evo URL:", pocketMonster.evolutionURL)
+                    pocketMonster.evolution = Evolution (evolutionURL: pocketMonster.evolutionURL)
+                    pocketMonster.evolution.downloadEvolutionData {
+                        
+                        print("download complete")
+                        
+                        print(pocketMonster.evolution.stage1Evolution)
+                        print(pocketMonster.evolution.stage2Evolution)
+                        self.performSegue(withIdentifier: "pokeSegue", sender: pocketMonster)
+
+                    }
+                    
+                } else {
+                    
+                    print("Downloaded Complete, Showing Pokedex Data \n Does Not Have Any Evolutions")
+                    // This will only be called after the network call is complete
+                    self.performSegue(withIdentifier: "pokeSegue", sender: pocketMonster)
+                }
                 self.actInd.stopAnimating()
                 self.actInd.removeFromSuperview()
                 collectionView.isUserInteractionEnabled = true
@@ -169,7 +184,6 @@ class ViewController: UIViewController, UICollectionViewDelegate, UICollectionVi
                 self.i = 0
             }
             
-
         }
     }
     
