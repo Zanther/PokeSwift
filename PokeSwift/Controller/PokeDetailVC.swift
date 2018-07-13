@@ -52,7 +52,9 @@ class PokeDetailVC: UIViewController {
         pokeBaseDefLbl.text = pokemon.baseDefense
         pokedexEntryLbl.text = pokemon.pokedexEntry
         
-        evolutionLbl.text = "\(pokemon.evolution.stage1Trigger.capitalized)\(" at ")\(pokemon.evolution.stage1MinLevel)"
+        let levelUp = pokemon.evolution.stage1Trigger.replacingOccurrences(of: "-", with: " ")
+        
+        evolutionLbl.text = "\(levelUp.capitalized)\(" at ")\(pokemon.evolution.stage1MinLevel)"
 
         evolutionImageLeft.image = UIImage(named: "\(pokemon.pokedexId)")
         evolutionImageRight.image = UIImage(named: "\(pokemon.evolution.stage1EvolutionID)")
@@ -103,7 +105,7 @@ class PokeDetailVC: UIViewController {
                     }
                     
                 } else {
-                    let levelUp = pokemon.evolution.stage2MinLevel.replacingOccurrences(of: "-", with: " ").capitalized
+                    let levelUp = pokemon.evolution.stage2Trigger.replacingOccurrences(of: "-", with: " ").capitalized
                         evolutionLbl.text = "\(levelUp)\(" at ")\(pokemon.evolution.stage2MinLevel)"
                 }
                 
@@ -155,7 +157,6 @@ class PokeDetailVC: UIViewController {
                 evolutionLbl.text = "\(levelUp)\(" with happiness at ")\(pokemon.evolution.minHappiness)"
             } else {
                 print("Default Level Up UI")
-                self.updateUI()
         }
         
     }
