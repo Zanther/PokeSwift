@@ -133,7 +133,7 @@ class ViewController: UIViewController, UICollectionViewDelegate, UICollectionVi
             return pokemon.count
         }
     }
-    
+   
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         
         showActivityIndicatory(uiView: self.view)
@@ -141,6 +141,7 @@ class ViewController: UIViewController, UICollectionViewDelegate, UICollectionVi
         
         let pocketMonster: Pokemon!
         
+  
         if searching {
             pocketMonster = self.filteredPokemon[indexPath.row]
             
@@ -223,8 +224,7 @@ class ViewController: UIViewController, UICollectionViewDelegate, UICollectionVi
         actInd.frame = CGRect(x: 0, y: 40, width: 70, height: 70)
 //        actInd.center = uiView.center
         actInd.hidesWhenStopped = true
-        actInd.activityIndicatorViewStyle =
-            UIActivityIndicatorViewStyle.whiteLarge
+        actInd.activityIndicatorViewStyle = .large
         uiView.addSubview(actInd)
         actInd.startAnimating()
     }

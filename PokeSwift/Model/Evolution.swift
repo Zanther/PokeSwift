@@ -129,11 +129,11 @@ class Evolution: Pokemon {
         
         print("Evolution URL", url)
         
-        Alamofire.request(url).responseJSON { (response) in
+        AF.request(url).responseJSON { (response) in
             
             //print("Evolution Response", response)
             
-            if let evoInfoDict = response.result.value as? Dictionary<String, AnyObject> {
+            if let evoInfoDict = response.value as? Dictionary<String, AnyObject> {
                 
                 //As the evolves to item is an array, we need to cast it as an array of dictionaries - note square brackets below
                 
@@ -176,7 +176,7 @@ class Evolution: Pokemon {
                                 
 //                                print("Use Item ", evoItemDict["name"]!)
                                 
-                                self._stage1MinLevel = evoItemDict["name"] as! String
+                                self._stage1MinLevel = evoItemDict["name"] as? String
                                 
                             }
                             
@@ -238,7 +238,7 @@ class Evolution: Pokemon {
                                     
                                     let evoTriggerDict = evoArr["trigger"] as? Dictionary<String, AnyObject>
                                     
-                                    let evoTrigger = evoTriggerDict!["name"] as! String
+                                    let evoTrigger = evoTriggerDict!["name"] as? String
 
 //                                    print("Trigger Stage 2:", evoTrigger! as Any)
                                     
@@ -251,7 +251,7 @@ class Evolution: Pokemon {
                                         
                                         print("Use Item ", evoItemDict!["name"]!)
                                         
-                                        self._stage2MinLevel = evoItemDict!["name"] as! String
+                                        self._stage2MinLevel = evoItemDict!["name"] as? String
                                         
                                     }
                                     
